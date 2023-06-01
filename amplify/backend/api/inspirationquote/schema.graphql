@@ -20,5 +20,5 @@ type QuoteAppData
     @index(name: "QuotesQueryName", queryField: "quoteQueryName")
   quoteGenerated: Int!
   createdAt: String!
-  updateAt: String!
+  updatedAt: String!
 }

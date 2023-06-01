@@ -7,14 +7,14 @@ export type CreateQuoteAppDataInput = {
   queryName: string,
   quoteGenerated: number,
   createdAt?: string | null,
-  updateAt: string,
+  updatedAt?: string | null,
 };
 
 export type ModelQuoteAppDataConditionInput = {
   queryName?: ModelStringInput | null,
   quoteGenerated?: ModelIntInput | null,
   createdAt?: ModelStringInput | null,
-  updateAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelQuoteAppDataConditionInput | null > | null,
   or?: Array< ModelQuoteAppDataConditionInput | null > | null,
   not?: ModelQuoteAppDataConditionInput | null,
@@ -78,7 +78,6 @@ export type QuoteAppData = {
   queryName: string,
   quoteGenerated: number,
   createdAt: string,
-  updateAt: string,
   updatedAt: string,
 };
 
@@ -87,7 +86,7 @@ export type UpdateQuoteAppDataInput = {
   queryName?: string | null,
   quoteGenerated?: number | null,
   createdAt?: string | null,
-  updateAt?: string | null,
+  updatedAt?: string | null,
 };
 
 export type DeleteQuoteAppDataInput = {
@@ -99,7 +98,7 @@ export type ModelQuoteAppDataFilterInput = {
   queryName?: ModelStringInput | null,
   quoteGenerated?: ModelIntInput | null,
   createdAt?: ModelStringInput | null,
-  updateAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelQuoteAppDataFilterInput | null > | null,
   or?: Array< ModelQuoteAppDataFilterInput | null > | null,
   not?: ModelQuoteAppDataFilterInput | null,
@@ -138,7 +137,7 @@ export type ModelSubscriptionQuoteAppDataFilterInput = {
   queryName?: ModelSubscriptionStringInput | null,
   quoteGenerated?: ModelSubscriptionIntInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
-  updateAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionQuoteAppDataFilterInput | null > | null,
   or?: Array< ModelSubscriptionQuoteAppDataFilterInput | null > | null,
 };
@@ -197,7 +196,6 @@ export type CreateQuoteAppDataMutation = {
     queryName: string,
     quoteGenerated: number,
     createdAt: string,
-    updateAt: string,
     updatedAt: string,
   } | null,
 };
@@ -214,7 +212,6 @@ export type UpdateQuoteAppDataMutation = {
     queryName: string,
     quoteGenerated: number,
     createdAt: string,
-    updateAt: string,
     updatedAt: string,
   } | null,
 };
@@ -231,7 +228,6 @@ export type DeleteQuoteAppDataMutation = {
     queryName: string,
     quoteGenerated: number,
     createdAt: string,
-    updateAt: string,
     updatedAt: string,
   } | null,
 };
@@ -255,7 +251,6 @@ export type GetQuoteAppDataQuery = {
     queryName: string,
     quoteGenerated: number,
     createdAt: string,
-    updateAt: string,
     updatedAt: string,
   } | null,
 };
@@ -275,7 +270,6 @@ export type ListQuoteAppDataQuery = {
       queryName: string,
       quoteGenerated: number,
       createdAt: string,
-      updateAt: string,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -299,7 +293,6 @@ export type QuoteQueryNameQuery = {
       queryName: string,
       quoteGenerated: number,
       createdAt: string,
-      updateAt: string,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -317,7 +310,6 @@ export type OnCreateQuoteAppDataSubscription = {
     queryName: string,
     quoteGenerated: number,
     createdAt: string,
-    updateAt: string,
     updatedAt: string,
   } | null,
 };
@@ -333,7 +325,6 @@ export type OnUpdateQuoteAppDataSubscription = {
     queryName: string,
     quoteGenerated: number,
     createdAt: string,
-    updateAt: string,
     updatedAt: string,
   } | null,
 };
@@ -349,7 +340,6 @@ export type OnDeleteQuoteAppDataSubscription = {
     queryName: string,
     quoteGenerated: number,
     createdAt: string,
-    updateAt: string,
     updatedAt: string,
   } | null,
 };

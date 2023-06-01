@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "@/styles/Home.module.css";
@@ -22,8 +22,70 @@ import {
 import cloudImg from "../assets/cloud.png";
 import quotesImg from "../assets/quotes.png";
 
+//GraphQL
+import { GraphQLQuery, GraphQLResult } from "@aws-amplify/api";
+import { quoteQueryName } from "@/src/graphql/queries";
+// AWS
+import { API } from "aws-amplify";
+
+// interface for out DynamoDB object
+interface UpdateQuoteInfoData {
+  id: string;
+  queryName: string;
+  quoteGenerated: number;
+  createdAt: string;
+  updateAt: string;
+}
+// type-guard for our fetch function
+function isGraphQLResultForQuotesQueryName(
+  response: any
+): response is GraphQLResult<{
+  quoteQueryName: {
+    items: [UpdateQuoteInfoData];
+  };
+}> {
+  return (
+    response.data &&
+    response.data.quoteQueryName &&
+    response.data.quoteQueryName.items
+  );
+}
+
 export default function Home() {
   const [numberOfQuotes, setNumberOfQuotes] = useState<Number | null>(0);
+
+  // function to fetch our DynamoDB object (quotes generates)
+  const updateQuoteInfo = async () => {
+    try {
+      const response = await API.graphql<GraphQLQuery<UpdateQuoteInfoData>>({
+        query: quoteQueryName,
+        authMode: "AWS_IAM",
+        variables: {
+          queryName: "LIVE",
+        },
+      });
+      console.log("response", response.data);
+
+      // Create type guards
+      if (!isGraphQLResultForQuotesQueryName(response)) {
+        throw new Error("Unexpected response from API.graphql");
+      }
+
+      if (!response.data) {
+        throw new Error("Response data is undefined");
+      }
+
+      const receivedNumberOfQuotes =
+        response.data.quoteQueryName.items[0].quoteGenerated;
+      setNumberOfQuotes(receivedNumberOfQuotes);
+    } catch (error) {
+      console.log("error getting quote data", error);
+    }
+  };
+
+  useEffect(() => {
+    updateQuoteInfo();
+  }, []);
 
   return (
     <>
@@ -55,7 +117,9 @@ export default function Home() {
               </FooterLink>
             </QuoteGeneratorSubTitle>
             <QuoteGeneratorButton>
-              <QuoteGeneratorButtonText onClick={null}>
+              <QuoteGeneratorButtonText
+              //onClick={null}
+              >
                 Make a Quote
               </QuoteGeneratorButtonText>
             </QuoteGeneratorButton>

@@ -14,7 +14,6 @@ export const getQuoteAppData = /* GraphQL */ `
       queryName
       quoteGenerated
       createdAt
-      updateAt
       updatedAt
     }
   }
@@ -31,7 +30,6 @@ export const listQuoteAppData = /* GraphQL */ `
         queryName
         quoteGenerated
         createdAt
-        updateAt
         updatedAt
       }
       nextToken
@@ -58,7 +56,6 @@ export const quoteQueryName = /* GraphQL */ `
         queryName
         quoteGenerated
         createdAt
-        updateAt
         updatedAt
       }
       nextToken

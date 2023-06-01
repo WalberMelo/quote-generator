@@ -11,7 +11,6 @@ export const onCreateQuoteAppData = /* GraphQL */ `
       queryName
       quoteGenerated
       createdAt
-      updateAt
       updatedAt
     }
   }
@@ -25,7 +24,6 @@ export const onUpdateQuoteAppData = /* GraphQL */ `
       queryName
       quoteGenerated
       createdAt
-      updateAt
       updatedAt
     }
   }
@@ -39,7 +37,6 @@ export const onDeleteQuoteAppData = /* GraphQL */ `
       queryName
       quoteGenerated
       createdAt
-      updateAt
       updatedAt
     }
   }
