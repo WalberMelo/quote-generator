@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import Image from "next/image";
 import styles from "@/styles/Home.module.css";
 
 // Components
@@ -17,6 +16,8 @@ import {
   QuoteGeneratorSubTitle,
   QuoteGeneratorTitle,
 } from "@/components/QuoteGenerator/QuoteGenerator";
+
+import QuoteGeneratorModal from "@/components/QuoteGenerator";
 
 // Assets
 import cloudImg from "../assets/cloud.png";
@@ -53,6 +54,29 @@ function isGraphQLResultForQuotesQueryName(
 
 export default function Home() {
   const [numberOfQuotes, setNumberOfQuotes] = useState<Number | null>(0);
+  const [openGenerator, setOpenGenerator] = useState(false);
+  const [processingQuote, setProcessingQuote] = useState(false);
+  const [quoteReceived, setQuoteReceived] = useState<String | null>(null);
+
+  // function for quote generator modal
+  const handleCloseGenerator = () => {
+    setOpenGenerator(false);
+  };
+
+  const handleOpenGenerator = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setOpenGenerator(true);
+    setProcessingQuote(true);
+    try {
+      // Run Lambda Function
+      setTimeout(() => {
+        setProcessingQuote(false);
+      }, 3000);
+    } catch (error) {
+      console.log("error generating quote:", error);
+      setProcessingQuote(false);
+    }
+  };
 
   // function to fetch our DynamoDB object (quotes generates)
   const updateQuoteInfo = async () => {
@@ -98,7 +122,15 @@ export default function Home() {
       {/* Background */}
       <GradientBackgroundComponent>
         {/* Quote Generator Modal Pop-up*/}
-        {/* <QuoteGeneratorModal /> */}
+
+        <QuoteGeneratorModal
+          open={openGenerator}
+          close={handleCloseGenerator}
+          processingQuote={processingQuote}
+          setProcessingQuote={setProcessingQuote}
+          quoteReceived={quoteReceived}
+          setQuoteReceived={setQuoteReceived}
+        />
         {/* Quote Generator */}
         <QuoteGeneratorContainer>
           <QuoteGeneratorInnerContainer>
@@ -116,12 +148,8 @@ export default function Home() {
                 ZenQuotes API
               </FooterLink>
             </QuoteGeneratorSubTitle>
-            <QuoteGeneratorButton>
-              <QuoteGeneratorButtonText
-              //onClick={null}
-              >
-                Make a Quote
-              </QuoteGeneratorButtonText>
+            <QuoteGeneratorButton onClick={handleOpenGenerator}>
+              <QuoteGeneratorButtonText>Make a Quote</QuoteGeneratorButtonText>
             </QuoteGeneratorButton>
           </QuoteGeneratorInnerContainer>
         </QuoteGeneratorContainer>
