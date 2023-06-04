@@ -129,10 +129,10 @@ exports.handler = async (event) => {
 
     // Add background images for the SVG creation
     const backgroundImages = [
-      "backgrounds/EasyMed.png",
-      "backgrounds/Harvey.png",
+      "backgrounds/Amin.png",
+      "backgrounds/Ibiza.png",
       "backgrounds/Ohhappiness.png",
-      "backgrounds/Sulphur.png",
+      "backgrounds/Sand.png",
     ];
 
     const randomIndex = Math.floor(Math.random() * backgroundImages.length);
