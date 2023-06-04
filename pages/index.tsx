@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import styles from "@/styles/Home.module.css";
 
 // Components
 import {
@@ -25,19 +24,29 @@ import quotesImg from "../assets/quotes.png";
 
 //GraphQL
 import { GraphQLQuery, GraphQLResult } from "@aws-amplify/api";
-import { quoteQueryName } from "@/src/graphql/queries";
+import { generateQuote, quoteQueryName } from "@/src/graphql/queries";
 // AWS
 import { API } from "aws-amplify";
 
-// interface for out DynamoDB object
+// interface  for out appsync <> lambda JSON response
+interface GenerateQuoteData {
+  generateQuote: {
+    statusCode: number;
+    header: { [key: string]: string };
+    body: string;
+  };
+}
+
+// interface for our DynamoDB object
 interface UpdateQuoteInfoData {
   id: string;
   queryName: string;
   quoteGenerated: number;
   createdAt: string;
-  updateAt: string;
+  updatedAt: string;
 }
-// type-guard for our fetch function
+
+// type guard for our fetch function
 function isGraphQLResultForQuotesQueryName(
   response: any
 ): response is GraphQLResult<{
@@ -61,6 +70,8 @@ export default function Home() {
   // function for quote generator modal
   const handleCloseGenerator = () => {
     setOpenGenerator(false);
+    setProcessingQuote(false);
+    setQuoteReceived(null);
   };
 
   const handleOpenGenerator = async (e: React.SyntheticEvent) => {
@@ -69,9 +80,30 @@ export default function Home() {
     setProcessingQuote(true);
     try {
       // Run Lambda Function
-      setTimeout(() => {
-        setProcessingQuote(false);
-      }, 3000);
+      const runFunction = "runFunction";
+      const runFunctionStringified = JSON.stringify(runFunction);
+      const response = await API.graphql<GenerateQuoteData>({
+        query: generateQuote,
+        authMode: "AWS_IAM",
+        variables: {
+          input: runFunctionStringified,
+        },
+      });
+
+      const responseStringified = JSON.stringify(response);
+      const responseReStringified = JSON.stringify(responseStringified);
+      const bodyIndex = responseReStringified.indexOf("body=") + 5;
+      const bodyAndBase64 = responseReStringified.substring(bodyIndex);
+      const bodyArray = bodyAndBase64.split(",");
+      const body = bodyArray[0];
+      console.log(body);
+      setQuoteReceived(body);
+
+      // End state
+      setProcessingQuote(false);
+
+      // Fetch if any new quotes were generated from counter
+      updateQuoteInfo();
     } catch (error) {
       console.log("error generating quote:", error);
       setProcessingQuote(false);
@@ -88,7 +120,7 @@ export default function Home() {
           queryName: "LIVE",
         },
       });
-      console.log("response", response.data);
+      //console.log("response", response.data);
 
       // Create type guards
       if (!isGraphQLResultForQuotesQueryName(response)) {
@@ -99,6 +131,7 @@ export default function Home() {
         throw new Error("Response data is undefined");
       }
 
+      // !TODO: Check why numbers of quotes is not updating
       const receivedNumberOfQuotes =
         response.data.quoteQueryName.items[0].quoteGenerated;
       setNumberOfQuotes(receivedNumberOfQuotes);
