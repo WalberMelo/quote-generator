@@ -1,4 +1,4 @@
-✨ Inspirational Quote Generator ✨
+## ✨ Inspirational Quote Generator ✨
 
 In this epic build, we're going to create a completely serverless quote generator using AWS as our cloud back-end and NextJS/TypeScript as our front-end.
 
