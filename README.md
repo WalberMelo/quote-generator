@@ -1,4 +1,19 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+✨ Inspirational Quote Generator ✨
+In this epic build, we're going to create a completely serverless quote generator using AWS as our cloud back-end and NextJS/TypeScript as our front-end.
+
+The most epic part is...we're going to be generating images in a server without any expensive software or hardware.
+
+What you'll learn in this build is how to:
+
+👨‍💻 Build a cool front-end for a quote generator
+
+💡 Write a script to fetch a random inspirational quote from ZenQuotes' API
+
+🌩 Use AWS to generate a quote graphic for you in the cloud & then let you download the file
+
+🔥 Deploy live
+
+This build combines ZenQuotes' amazing API for fetching quotes, AWS Amplify for framework deployment and hosting, NextJS and Typescript for our front-end, styled-components to handle our styling, and some spicy backend scripting 🌶
 
 ## Getting Started
 
